@@ -181,11 +181,12 @@ res = {}
 for item in queue:
     if "city" in item:
         if item["city"]["title"] in res:
-            res[item["city"]["title"]].append(item["id"])
+            res[item["city"]["title"]].append("http://vk.com/id"+str(item["id"]))
         else:
-            res[item["city"]["title"]] = [item["id"]]
+            res[item["city"]["title"]] = ["http://vk.com/id"+str(item["id"])]
 
 with open(dir + "\\" + "cities.json", 'w', encoding='utf8') as json_file:
     json.dump(res, json_file, ensure_ascii=False)
 
-print(res)
+
+print(len(queue))
