@@ -125,6 +125,10 @@ import codecs
 
 dir = os.path.dirname(os.path.abspath(__file__))
 
+def update_file():
+    with open(dir + "\\" + "users.json", 'w', encoding='utf8') as json_file:
+        json.dump(queue, json_file, ensure_ascii=False)
+
 
 user = "401112366"
 user_me = "170751373"
@@ -133,18 +137,17 @@ number = 2000
 
 first_queue = get_followers(user_me, token, 300)
 
-for item in first_queue:
-    id = item["id"]
-    print(len(queue))
-    if len(queue)<2000:
-        secondary_queue = get_followers(str(id), token, 500)
-        if secondary_queue:
-            for item2 in secondary_queue:
-                queue.append(item2)
-    queue.append(item)
+with open(dir + "\\" + "users.json", encoding='utf-8') as fh:
+    queue = json.load(fh)
 
-with open(dir + "\\"+"users.json", 'w', encoding='utf8') as json_file:
-    json.dump(queue, json_file, ensure_ascii=False)
+for i in range(len(queue)):
+    print(i)
+    item = queue[i]
+    if "interests" in item:
+        continue
+    data = get_interests_cloud(str(item["id"]), token)
+    queue[i]["interests"] = data
+    update_file()
 
-print(len(queue))
+update_file()
 
