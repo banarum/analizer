@@ -115,6 +115,25 @@ def query_one(id, token):
     return result
 
 
+def filter(filters):
+    changes = 1
+    while changes > 0:
+        changes = 0
+        for item in queue:
+            interests = item["interests"]
+            broken = False
+            for obj in interests:
+                for filter in filters:
+                    if filter in obj:
+                        print(obj)
+                        queue.remove(item)
+                        changes += 1
+                        broken = True
+                        break
+                if broken:
+                    break
+
+
 def analize(rsp):
     # looking for basic info
     result = {"female": rsp["sex"] == 1}
@@ -144,6 +163,20 @@ def analize(rsp):
     return result
 
 
+def save_cities():
+    res = {}
+
+    for item in queue:
+        if "city" in item:
+            if item["city"]["title"] in res:
+                res[item["city"]["title"]].append("http://vk.com/id" + str(item["id"]))
+            else:
+                res[item["city"]["title"]] = ["http://vk.com/id" + str(item["id"])]
+
+    with open(dir + "\\" + "cities.json", 'w', encoding='utf8') as json_file:
+        json.dump(res, json_file, ensure_ascii=False)
+
+
 task = 50
 
 token = "7b34d3ea7b34d3ea7be146e8007b6e989077b347b34d3ea23f7f84ba9d7cdf73eed934c"
@@ -166,27 +199,12 @@ number = 2000
 with open(dir + "\\" + "users.json", encoding='utf-8') as fh:
     queue = json.load(fh)
 
-#changes = 1
-#while changes > 0:
+# changes = 1
+# while changes > 0:
 #    changes = 0
 #    for item in queue:
 #        if item["popularity"]<1:
 #            queue.remove(item)
 #            changes += 1
-
-filters = ["даром"]
-
-res = {}
-
-for item in queue:
-    if "city" in item:
-        if item["city"]["title"] in res:
-            res[item["city"]["title"]].append("http://vk.com/id"+str(item["id"]))
-        else:
-            res[item["city"]["title"]] = ["http://vk.com/id"+str(item["id"])]
-
-with open(dir + "\\" + "cities.json", 'w', encoding='utf8') as json_file:
-    json.dump(res, json_file, ensure_ascii=False)
-
 
 print(len(queue))
