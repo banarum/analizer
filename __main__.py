@@ -7,6 +7,7 @@ import requests
 
 queue = []
 
+
 def get_followers(id, token, num):
     fields = "photo_id,verified,sex,bdate,city,country,home_town,has_photo,photo_50,online,domain,has_mobile,contacts," \
              "site,education,universities,schools,status,last_seen,followers_count,occupation,nickname,relatives," \
@@ -15,7 +16,7 @@ def get_followers(id, token, num):
 
     url = "https://api.vk.com/method/users.getFollowers?v=5.74&access_token=" + token + "&"
 
-    answer = requests.get(url + "fields=" + fields + "&user_id=" + id+"&count="+str(num))
+    answer = requests.get(url + "fields=" + fields + "&user_id=" + id + "&count=" + str(num))
 
     if answer.status_code != 200:
         return None
@@ -26,6 +27,7 @@ def get_followers(id, token, num):
         result.append(analize(item))
 
     return result
+
 
 def get_interests_cloud(id, token):
     answer = requests.get(
@@ -45,10 +47,10 @@ def get_interests_cloud(id, token):
 
 
 def get_age(date):
-        if (int(date.split(".")[2])<1971):
-            return 2018-int(date.split(".")[2])
-        return math.floor((time.time() - time.mktime(
-            datetime.datetime.strptime(date, "%d.%m.%Y").timetuple())) / 60 / 60 / 24 / 365)
+    if (int(date.split(".")[2]) < 1971):
+        return 2018 - int(date.split(".")[2])
+    return math.floor((time.time() - time.mktime(
+        datetime.datetime.strptime(date, "%d.%m.%Y").timetuple())) / 60 / 60 / 24 / 365)
 
 
 def calculate_oscore(rsp):
@@ -66,6 +68,31 @@ def calculate_oscore(rsp):
         score += 3
 
     return score
+
+
+def get_popularity(id, token):
+    fields = "followers_count"
+
+    url = "https://api.vk.com/method/users.get?v=5.74&access_token=" + token + "&"
+
+    answer = requests.get(url + "fields=" + fields + "&user_ids=" + id)
+
+    if answer.status_code != 200:
+        return None
+
+    data = json.loads(answer.text)["response"]
+
+    result = []
+
+    for rsp in data:
+        obj = {}
+        obj["popularity"] = 0
+        obj["id"] = rsp["id"]
+        if "followers_count" in rsp:
+            obj["popularity"] = round(rsp["followers_count"] / 100)
+        result.append(obj)
+
+    return result
 
 
 def query_one(id, token):
@@ -96,12 +123,12 @@ def analize(rsp):
     if "bdate" in rsp and len(rsp["bdate"].split(".")) == 3:
         result["age"] = get_age(rsp["bdate"])
 
-    if "popularity" in rsp:
+    if "followers_count" in rsp:
         result["popularity"] = round(rsp["followers_count"] / 100)
 
     result["openmind"] = calculate_oscore(rsp)
 
-    #result["interests"] = get_interests_cloud(rsp["id"], token)
+    # result["interests"] = get_interests_cloud(rsp["id"], token)
 
     if "country" in rsp:
         result["country"] = rsp["country"]
@@ -116,14 +143,15 @@ def analize(rsp):
 
     return result
 
+
 task = 50
 
 token = "7b34d3ea7b34d3ea7be146e8007b6e989077b347b34d3ea23f7f84ba9d7cdf73eed934c"
 
 import os
-import codecs
 
 dir = os.path.dirname(os.path.abspath(__file__))
+
 
 def update_file():
     with open(dir + "\\" + "users.json", 'w', encoding='utf8') as json_file:
@@ -135,19 +163,29 @@ user_me = "170751373"
 
 number = 2000
 
-first_queue = get_followers(user_me, token, 300)
-
 with open(dir + "\\" + "users.json", encoding='utf-8') as fh:
     queue = json.load(fh)
 
-for i in range(len(queue)):
-    print(i)
-    item = queue[i]
-    if "interests" in item:
-        continue
-    data = get_interests_cloud(str(item["id"]), token)
-    queue[i]["interests"] = data
-    update_file()
+#changes = 1
+#while changes > 0:
+#    changes = 0
+#    for item in queue:
+#        if item["popularity"]<1:
+#            queue.remove(item)
+#            changes += 1
 
-update_file()
+filters = ["даром"]
 
+res = {}
+
+for item in queue:
+    if "city" in item:
+        if item["city"]["title"] in res:
+            res[item["city"]["title"]].append(item["id"])
+        else:
+            res[item["city"]["title"]] = [item["id"]]
+
+with open(dir + "\\" + "cities.json", 'w', encoding='utf8') as json_file:
+    json.dump(res, json_file, ensure_ascii=False)
+
+print(res)
