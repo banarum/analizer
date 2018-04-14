@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cbfca7c1-ea88-4c52-8496-bf6c9f67b768" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/users_prettify.json" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/users.json" afterPath="$PROJECT_DIR$/users.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/users_prettify.json" afterPath="$PROJECT_DIR$/users_prettify.json" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -30,8 +30,8 @@
       <file leaf-file-name="users.json" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/users.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="387">
-              <caret line="0" column="374672" lean-forward="false" selection-start-line="0" selection-start-column="374672" selection-end-line="0" selection-end-column="374672" />
+            <state relative-caret-position="0">
+              <caret line="0" column="352911" lean-forward="false" selection-start-line="0" selection-start-column="352911" selection-end-line="0" selection-end-column="352911" />
               <folding />
             </state>
           </provider>
@@ -40,8 +40,8 @@
       <file leaf-file-name="users_prettify.json" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/users_prettify.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="147">
-              <caret line="0" column="1123" lean-forward="true" selection-start-line="0" selection-start-column="1123" selection-end-line="0" selection-end-column="1123" />
+            <state relative-caret-position="126">
+              <caret line="46" column="30" lean-forward="false" selection-start-line="46" selection-start-column="30" selection-end-line="46" selection-end-column="30" />
               <folding />
             </state>
           </provider>
@@ -91,6 +91,7 @@
       <list>
         <option value="$PROJECT_DIR$/__main__.py" />
         <option value="$PROJECT_DIR$/users.json" />
+        <option value="$PROJECT_DIR$/users_prettify.json" />
       </list>
     </option>
   </component>
@@ -340,16 +341,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/users.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="387">
-          <caret line="0" column="374672" lean-forward="false" selection-start-line="0" selection-start-column="374672" selection-end-line="0" selection-end-column="374672" />
+        <state relative-caret-position="0">
+          <caret line="0" column="352911" lean-forward="false" selection-start-line="0" selection-start-column="352911" selection-end-line="0" selection-end-column="352911" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/users_prettify.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="147">
-          <caret line="0" column="1123" lean-forward="true" selection-start-line="0" selection-start-column="1123" selection-end-line="0" selection-end-column="1123" />
+        <state relative-caret-position="126">
+          <caret line="46" column="30" lean-forward="false" selection-start-line="46" selection-start-column="30" selection-end-line="46" selection-end-column="30" />
           <folding />
         </state>
       </provider>
