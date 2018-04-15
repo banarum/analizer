@@ -49,6 +49,19 @@ class ScanAPI:
 
         return score
 
+    def get_interests_cloud(self, id):
+        answer = requests.get(
+            "https://api.vk.com/method/users.getSubscriptions?user_id=" + id + "&v=5.74&count=40&extended=1&access_token=" + self.token)
+        if answer.status_code != 200:
+            return None
+        rsp = json.loads(answer.text)["response"]["items"]
+        res = []
+        for item in rsp:
+            if item["type"] == "page" and "name" in item:
+                res.append(item["name"])
+
+        return res
+
     def analize(self, rsp):
         # looking for basic info
         result = {"female": rsp["sex"] == 1}
