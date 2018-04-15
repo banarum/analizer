@@ -5,6 +5,8 @@ import time
 
 import requests
 
+from ScanAPI import ScanAPI
+
 queue = []
 
 
