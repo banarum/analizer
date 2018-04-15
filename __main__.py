@@ -116,22 +116,20 @@ def query_one(id, token):
 
 
 def filter(filters):
-    changes = 1
-    while changes > 0:
-        changes = 0
-        for item in queue:
-            interests = item["interests"]
-            broken = False
-            for obj in interests:
-                for filter in filters:
-                    if filter in obj:
-                        print(obj)
-                        queue.remove(item)
-                        changes += 1
-                        broken = True
-                        break
-                if broken:
+    result = []
+    for item in queue:
+        interests = item["interests"]
+        broken = False
+        for obj in interests:
+            for filter in filters:
+                if filter in obj:
+                    result.append(item)
+                    queue.remove(item)
+                    broken = True
                     break
+            if broken:
+                break
+    return result
 
 
 def analize(rsp):
@@ -146,8 +144,6 @@ def analize(rsp):
         result["popularity"] = round(rsp["followers_count"] / 100)
 
     result["openmind"] = calculate_oscore(rsp)
-
-    # result["interests"] = get_interests_cloud(rsp["id"], token)
 
     if "country" in rsp:
         result["country"] = rsp["country"]
@@ -176,6 +172,8 @@ def save_cities():
     with open(dir + "\\" + "cities.json", 'w', encoding='utf8') as json_file:
         json.dump(res, json_file, ensure_ascii=False)
 
+def get_link(obj):
+    return "https://vk.com/id"+str(obj["id"])
 
 task = 50
 
@@ -198,6 +196,13 @@ number = 2000
 
 with open(dir + "\\" + "users.json", encoding='utf-8') as fh:
     queue = json.load(fh)
+
+
+
+users = filter(["инвест", "капитал"])
+
+for user in users:
+    print(get_link(user))
 
 # changes = 1
 # while changes > 0:
